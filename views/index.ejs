@@ -1,16 +1,59 @@
 <!DOCTYPE html>
-<html>
+<html lang='en'>
   <head>
     <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
+    <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src='/socket.io/socket.io.js'></script>
     <script>
     	var socket = io.connect('http://localhost:3000');
-    </script>
 
+      socket.on('connect', function(){
+        
+      });
+
+      socket.on('updateUserList', function(users){
+        console.log(users);
+        $.each(users.userList, function(i, user){
+          $(".connectedUsers").html("<div>"+user+"</div>");
+        });
+        
+      });
+
+      $(document).ready(function(){
+        $('#btnJoin').on('click', function(){
+          socket.emit('addUser', prompt("Username please"));
+        });
+      });
+
+    </script>
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class='container-fluid'>
+      <div class='row'>
+        <div class='span12'>
+          <h1>Quiz Node</h1>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='span4'>
+          <div class='well'>
+            <h3>Players</h3>
+            <div class='connectedUsers'>
+
+            </div>
+          </div>
+        </div>
+        <div class='span8'>
+          <div class='hero-unit'>
+            <h2>Welcome to Quiz Node</h2>
+            <p>
+              Let's see if your gooder then your co-worker at answering random questions with random bogus answers!
+            </p>
+            <button id='btnJoin' class='btn btn-primary'>Start the Quiz</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

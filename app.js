@@ -38,10 +38,19 @@ app.get('/users', user.list);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
-*/ 
+*/
+
+var users = [];
 
 var io = require('socket.io').listen(app.listen(port));
 
-io.sockets.on('connection', function(client){
-	console.log('New connection...');
+io.sockets.on('connection', function(socket){
+	console.log('New connection attempt');
+
+	socket.on('addUser', function(name){
+	console.log(name + " has joined");
+	users.push(name);
+		io.sockets.emit('updateUserList', {userList:users});
+	});
+
 });
