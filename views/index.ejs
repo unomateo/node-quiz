@@ -3,26 +3,37 @@
   <head>
     <title><%= title %></title>
     <link rel='stylesheet' href='/bootstrap/css/bootstrap.css' />
+    <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
     <script src='/socket.io/socket.io.js'></script>
     <script>
     	var socket = io.connect('http://localhost:3000');
+      var connected = false;
 
       socket.on('connect', function(){
         
       });
 
-      socket.on('updateUserList', function(users){
-        console.log(users);
-        $.each(users.userList, function(i, user){
-          $(".connectedUsers").html("<div>"+user+"</div>");
+      socket.on('newUserList', function(data){
+        $(".connectedUsers").html('');
+        $.each(data.userList, function(i, user){
+          $(".connectedUsers").append("<div id='"+user+"'>"+user+"</div>");
         });
-        
+      });
+
+      socket.on('updateUserList', function(data){
+    
+        if(data.connectionType ==  'add'){
+          $(".connectedUsers").append("<div id='"+data.user+"'>"+data.user+"</div>");
+        } else {
+          $("#"+data.user).remove();
+        }
       });
 
       $(document).ready(function(){
         $('#btnJoin').on('click', function(){
           socket.emit('addUser', prompt("Username please"));
+          connected = true;
         });
       });
 

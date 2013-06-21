@@ -45,12 +45,21 @@ var users = [];
 var io = require('socket.io').listen(app.listen(port));
 
 io.sockets.on('connection', function(socket){
+
 	console.log('New connection attempt');
+	io.sockets.emit('newUserList', {userList:users});
 
 	socket.on('addUser', function(name){
+	socket.username = name;
 	console.log(name + " has joined");
 	users.push(name);
-		io.sockets.emit('updateUserList', {userList:users});
+		io.sockets.emit('updateUserList', {user:name, connectionType:'add'});
 	});
 
+	socket.on('disconnect', function(){
+		console.log(socket.username + " has disconnected");
+		var index = users.indexOf(socket.username);
+		users.splice(index, 1);
+		io.sockets.emit('updateUserList', {user:socket.username, connectionType:'delete'});
+	});
 });
