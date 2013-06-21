@@ -10,9 +10,11 @@ var express = require('express')
   , path = require('path');
 
 var app = express();
+var port = 3000;
+
 
 // all environments
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || port);
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(express.favicon());
@@ -32,6 +34,14 @@ if ('development' == app.get('env')) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 
+/*
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
+});
+*/ 
+
+var io = require('socket.io').listen(app.listen(port));
+
+io.sockets.on('connection', function(client){
+	console.log('New connection...');
 });
