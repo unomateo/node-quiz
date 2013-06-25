@@ -1,4 +1,6 @@
-{"data":[
-	{"questions": "Who is Prime Minister of the United Kingdom?", "choices": ["David Cameron", "Gordon Brown", "Winston Churchill", "Tony Blair"], "correctAnswer":0},
-	{"questions": "North West", "choices": ["What is the name of Kim Kardashian's baby?", "What is the opposite of south?"], "correctAnswer":0}
+{"questions":[
+	{"question": "Who is Prime Minister of the United Kingdom?", "choices": ["David Cameron", "Gordon Brown", "Winston Churchill", "Tony Blair"], "correctAnswer":0},
+	{"question": "North West", "choices": ["What is the name of Kim Kardashian's baby?", "What is the opposite of south?"], "correctAnswer":0},
+	{"question": "What's my favorite color?", "choices": ["Black", "Blue", "Magenta", "Red"], "correctAnswer":1},
+	{"question": "What's the meaning of life?", "choices": ["Too live happily", "To give to the greater good"], "correctAnswer":1}
 ]}
