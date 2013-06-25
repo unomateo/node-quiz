@@ -4,10 +4,11 @@
  */
 
 var express = require('express')
-  , routes = require('./routes')
-  , user = require('./routes/user')
-  , http = require('http')
-  , path = require('path');
+  , routes  = require('./routes')
+  , user    = require('./routes/user')
+  , http    = require('http')
+  , fs      = require('fs')
+  , path    = require('path');
 
 var app = express();
 var port = 3000;
@@ -54,6 +55,11 @@ io.sockets.on('connection', function(socket){
 	console.log(name + " has joined");
 	users.push(name);
 		io.sockets.emit('updateUserList', {user:name, connectionType:'add'});
+
+		fs.readFile(__dirname + "/lib/questions.json", "Utf-8", function(err, data){
+			socket.emit('sendQuestions', JSON.parse(data));
+		});
+
 	});
 
 	socket.on('disconnect', function(){
@@ -63,3 +69,7 @@ io.sockets.on('connection', function(socket){
 		io.sockets.emit('updateUserList', {user:socket.username, connectionType:'delete'});
 	});
 });
+
+function getQuestions(){
+
+}

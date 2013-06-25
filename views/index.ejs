@@ -9,6 +9,7 @@
     <script>
     	var socket = io.connect('http://localhost:3000');
       var connected = false;
+      var username = '';
 
       socket.on('connect', function(){
         
@@ -30,10 +31,21 @@
         }
       });
 
+      socket.on('sendQuestions', function(data){
+        
+        console.log(data);
+        
+      });
+
       $(document).ready(function(){
         $('#btnJoin').on('click', function(){
-          socket.emit('addUser', prompt("Username please"));
-          connected = true;
+          var username = prompt("Username please");
+          if(username !=''){
+            socket.emit('addUser', username);
+            connected = true;
+          } else {
+            alert("USERNAME PLEASE!");
+          }
         });
       });
 
